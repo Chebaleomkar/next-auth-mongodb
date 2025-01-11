@@ -1,10 +1,10 @@
-import {LoginForm} from "@/components";
+import {RegisterForm} from "@/components";
 import FormLayout from "@/layout/FormLayout";
 
-export default function Login() {
+export default function Register() {
     return (
         <FormLayout>
-            <LoginForm />
+            <RegisterForm />
         </FormLayout>
     );
 }

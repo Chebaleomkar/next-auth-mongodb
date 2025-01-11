@@ -1,20 +1,21 @@
-import NextAuth from "next-auth";
+import NextAuth, { getServerSession } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { compare } from "bcrypt";
 import userModel from "@/models/user";
 import { DBconnect } from "@/utils/dbConnect";
 
-export default NextAuth({
+export const authOptions: NextAuthOptions  = {
     providers: [
         GithubProvider({
-            clientId: process.env.GITHUB_ID || "",
-            clientSecret: process.env.GITHUB_SECRET || "",
+            clientId: process.env.GITHUB_CLIENT_ID!,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET!,
         }),
-        GoogleProvider({
-            clientId: process.env.GOOGLE_CLIENT_ID || "",
-            clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+        FacebookProvider({
+            clientId: process.env.FACEBOOK_CLIENT_ID!,
+            clientSecret: process.env.FACEBOOK_CLIENT_SECRET!,
         }),
         CredentialsProvider({
             id: "credentials",
@@ -27,9 +28,7 @@ export default NextAuth({
                 if (!credentials?.email || !credentials?.password) {
                     throw new Error("Email and password are required");
                 }
-
-                // Connect to MongoDB
-                await DBconnect();
+                DBconnect();
 
                 // Find the user in the database
                 const user = await userModel.findOne({ email: credentials.email });
@@ -56,9 +55,6 @@ export default NextAuth({
             },
         }),
     ],
-    pages: {
-        signIn: "/auth", // Custom sign-in page
-    },
     debug: process.env.NODE_ENV === "development",
     session: {
         strategy: "jwt",
@@ -67,4 +63,8 @@ export default NextAuth({
         secret: process.env.NEXTAUTH_JWT_SECRET,
     },
     secret: process.env.NEXTAUTH_SECRET,
-});
+};
+export const getSession = () => getServerSession(authOptions)
+
+const handler = NextAuth(authOptions)
+export { handler as GET, handler as POST}
