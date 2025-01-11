@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
+import { NavbarItems } from "@/utils/constants";
 
 export const Header = () => {
     const { data: session, status } = useSession();
@@ -18,7 +19,15 @@ export const Header = () => {
             <div className="text-lg font-bold">
                 <Link href="/">My App</Link>
             </div>
-
+            <div className="text-white flex flex-row gap-2 font-semibold ">
+                {NavbarItems.map((item , i)=>(
+                    <div key={i} className="hover:underline">
+                        <Link href={item.link}>
+                            {item.name}
+                        </Link>
+                    </div>
+                ))}
+            </div>
             {/* User Section */}
             <div>
                 {status === "loading" ? (
@@ -44,7 +53,7 @@ export const Header = () => {
                                 </div>
                                 <div className="mt-4">
                                     <button
-                                        onClick={() => signOut()}
+                                        onClick={() => {signOut() ; window.location.href = '/'}}
                                         className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-md transition duration-300 ease-in-out transform hover:scale-105"
                                     >
                                         Logout
