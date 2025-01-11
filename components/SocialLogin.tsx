@@ -28,22 +28,23 @@ export const signInOptions: SignInOption[] = [
 
 export const SocialLogins = () => {
     const handleProviderSignUp = (provider: string, callbackUrl: string) => {
-        signIn(provider, { callbackUrl } );
+        signIn(provider, { callbackUrl });
     };
 
     return (
-        <div className="mt-6 grid grid-cols-2 gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-4 m-3">
             {signInOptions.map(({ provider, callbackUrl, icon, label }) => (
                 <button
                     type="button"
                     key={provider}
                     onClick={() => handleProviderSignUp(provider, callbackUrl)}
-                    className="w-full"
+                    className="flex items-center justify-center w-full sm:w-auto px-4 py-2 border rounded-md hover:bg-gray-100 transition-all"
                 >
-                    {icon}
+                    <span className="text-xl">{icon}</span>
                     <span className="sr-only sm:not-sr-only sm:ml-2">{label}</span>
                 </button>
             ))}
         </div>
+
     );
 };

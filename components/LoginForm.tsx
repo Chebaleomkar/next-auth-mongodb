@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { signIn } from "next-auth/react";
@@ -8,20 +7,22 @@ import { SocialLogins } from "@/components";
 const loginSchema = Yup.object().shape({
   password: Yup.string()
     .min(8, "Too Short!")
-    .max(50, "Too Long!")
+    .max(10, "Too Long!")
     .required("Required"),
   email: Yup.string().email("Invalid email").required("Required"),
 });
 
 export const LoginForm = () => {
   const handleSubmit = (values: { email: string; password: string }, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
-  console.log(values)
+    console.log(values);
     signIn('credentials', { 
-      email:values.email, 
-      password:values.password, 
+      email: values.email, 
+      password: values.password, 
       redirect: false, 
       callbackUrl: '/' 
-    })
+    }).finally(() => {
+      setSubmitting(false);
+    });
   };
 
   return (
