@@ -26,7 +26,7 @@ export const LoginForm = () => {
   };
 
   return (
-      <div className="w-full max-w-md p-8  rounded shadow-md">
+      <div className="w-full mt-16 max-w-md p-8 border border-black  rounded-md shadow-lg">
         <h1 className="mb-6 text-2xl font-bold text-center ">Login</h1>
         <Formik
           initialValues={{ email: "", password: "" }}
@@ -34,7 +34,7 @@ export const LoginForm = () => {
           onSubmit={handleSubmit}
         >
           {({ isSubmitting }) => (
-            <Form className="space-y-4">
+            <Form className="space-y-4  ">
               <div>
                 <label htmlFor="email" className="block mb-1 text-sm font-medium ">
                   Email:

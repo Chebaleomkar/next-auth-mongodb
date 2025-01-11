@@ -13,7 +13,7 @@ const registerSchema = Yup.object().shape({
 })
 
 export const RegisterForm = () => {
- const router = useRouter();
+const router = useRouter();
     const handleSubmit = async (values: { name: string; email: string; password: string }, { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }) => {
         console.log(values);
         await fetch("/api/auth/register", {
